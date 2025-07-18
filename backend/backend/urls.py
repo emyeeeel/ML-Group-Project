@@ -21,4 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('classifier.urls')), 
+    path('llm/', include('llm_analyzer.urls')), #http://localhost:8000/llm/analysis/
 ]

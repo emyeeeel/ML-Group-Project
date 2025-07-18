@@ -36,6 +36,7 @@ expected_features = [
     'total_interactivity_score', 'interactivity_level'
 ]
 
+
 @csrf_exempt
 def predict_results(request):
     if request.method == 'POST':
@@ -64,3 +65,5 @@ def predict_results(request):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'error': 'POST request required'})
+
+
