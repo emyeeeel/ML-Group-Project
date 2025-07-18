@@ -13,11 +13,14 @@ from groq import Groq
 
 # Initialize Groq client. 
 # There must be a .env file to store the GROQ_API_KEY since Github doesn't allow pushing changes with it exposed.
-# Option 1:
+# Option 1: Use .env
 load_dotenv()  # Load .env file
 api_key = os.getenv("GROQ_API_KEY")  # Read from environment
 client = Groq(api_key=api_key)
 
+# Option 2: Direct use of GROQ_API_KEY
+# GROQ_API_KEY = "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"
+# client = Groq(api_key=GROQ_API_KEY)
 
 # Helper to load models
 def load_model(model_name):
