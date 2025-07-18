@@ -1,1 +1,24 @@
-<p>assess works!</p>
+<div class="assess-container">
+
+  <app-choice
+    *ngIf="currentQuestion; else assessmentFinished"
+    [currentQuestion]="currentQuestion"
+    (onAnswer)="handleAnswer($event)">
+  </app-choice>
+
+  <ng-template #assessmentFinished>
+    <div class="finished-container">
+      <div class="finished-header">
+        Assessment Complete!
+      </div>
+      <div class="finished-content">
+        <h2 class="finished-title">You're All Done!</h2>
+        <p class="finished-text">Thank you for completing the questionnaire.</p>
+        <button class="results-button">
+          View Results
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
