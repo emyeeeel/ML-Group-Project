@@ -6,14 +6,15 @@ import json
 import os
 import joblib
 import numpy as np
+from dotenv import load_dotenv
 
 import groq
 from groq import Groq
 
-# Initialize Groq client
-API_KEY = "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"
-client = Groq(api_key=API_KEY)
-
+# Initialize Groq client. 
+# There must be a .env file to store the GROQ_API_KEY since Github doesn't allow pushing changes with it exposed.
+load_dotenv()  # Load .env file
+client = Groq(api_key="GROQ_API_KEY")
 
 # Helper to load models
 def load_model(model_name):
