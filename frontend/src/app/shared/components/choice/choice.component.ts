@@ -14,11 +14,22 @@ import { ASSESSMENT_QUESTIONS, Question } from '../../constants/questions';
 export class ChoiceComponent implements OnInit {
   currentQuestion!: Question;
   choices: ChoiceModel[] = [];
+  selectedChoiceIndex: number | null = null;
 
   constructor(private generateChoiceService: GenerateChoiceService) {}
 
   ngOnInit(): void {
-    this.currentQuestion = ASSESSMENT_QUESTIONS[3]; // or any logic to pick the question
+    this.currentQuestion = ASSESSMENT_QUESTIONS[10]; 
     this.choices = this.generateChoiceService.generateFromQuestion(this.currentQuestion);
+  }
+
+  onSelectChoice(index: number): void {
+    if (this.selectedChoiceIndex === null) {
+      this.selectedChoiceIndex = index;
+    }
+  }
+
+  isDisabled(index: number): boolean {
+    return this.selectedChoiceIndex !== null && this.selectedChoiceIndex !== index;
   }
 }

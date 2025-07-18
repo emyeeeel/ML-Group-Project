@@ -1,17 +1,31 @@
-<div class="question">
-    {{ currentQuestion.text }}
-  </div>
-
-<div class="choices-grid">
-    <div 
-      *ngFor="let choice of choices" 
-      class="choice-card"
-      [style.background-color]="choice.backgroundColor"
-    >
-      <div class="shape-container">
-        <div [ngClass]="choice.shape"></div>
+<div class="question-container">
+    <div class="question">
+      <div class="header">
+        <div class="question-category">
+            {{ currentQuestion.category }}
+          </div>
+          <button id="next-btn" [disabled]="selectedChoiceIndex === null">Next</button>
       </div>
-      <div class="text-content">{{ choice.text }}</div>
+      <div class="question-text-container">
+        <div class="question-text">
+            {{ currentQuestion.text }}
+        </div>
+      </div>
     </div>
+  
+    <div class="choices-grid">
+        <div 
+        *ngFor="let choice of choices; let i = index" 
+        class="choice-card"
+        [style.background-color]="choice.backgroundColor"
+        [class.disabled]="isDisabled(i)"
+        (click)="onSelectChoice(i)"
+      >
+        <div class="shape-container">
+          <div [ngClass]="choice.shape"></div>
+        </div>
+        <div class="text-content">{{ choice.text }}</div>
+      </div>        
+    </div>    
   </div>
   
