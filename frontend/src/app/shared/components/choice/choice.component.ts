@@ -18,7 +18,7 @@ export class ChoiceComponent implements OnInit {
   constructor(private generateChoiceService: GenerateChoiceService) {}
 
   ngOnInit(): void {
-    this.currentQuestion = ASSESSMENT_QUESTIONS[4]; // or any logic to pick the question
+    this.currentQuestion = ASSESSMENT_QUESTIONS[3]; // or any logic to pick the question
     this.choices = this.generateChoiceService.generateFromQuestion(this.currentQuestion);
   }
 }

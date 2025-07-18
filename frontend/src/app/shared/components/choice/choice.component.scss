@@ -1,16 +1,16 @@
 
-  .choices-grid {
+.choices-grid {
     position: absolute;
     bottom: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    grid-template-rows: repeat(2, 1fr);
-    gap: .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     width: 100%;
-    height: 30vh;
+    height: 40vh;
   }
   
   .choice-card {
+    flex: 1 1 0; 
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -22,46 +22,38 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
+  }
+  
+.shape-container {
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  margin: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  }
-  .shape-container {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    margin: 0 1.5rem;
-  }
-  
-  .circle,
-  .square,
-  .diamond {
-    background-color: white;
-  }
-  
-  .circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  .square {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .triangle {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 40px solid white;
-  }
-  
-  .diamond {
-    width: 40px;
-    height: 40px;
-    transform: rotate(45deg);
-  }
-  
+.circle,
+.square,
+.diamond {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.square {
+  width: 35px;
+  height: 35px;
+}
+
+.diamond {
+  transform: rotate(45deg);
+}
   
   .text-content {
     flex: 1;
