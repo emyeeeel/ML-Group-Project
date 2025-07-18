@@ -1,150 +1,72 @@
-.question-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #F1F1F1;;
+.assess-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+.finished-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+.finished-header {
+  height: 10vh;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #333;
+}
+
+.finished-content {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.finished-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.finished-text {
+  font-size: 1.25rem;
+  color: #666;
+  margin-bottom: 2.5rem;
+}
+
+.results-button {
+  background-color: #26890A;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: filter 0.2s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    filter: brightness(1.1);
   }
-  
-  .question {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-  
-  .question-text-container{
-    height: 50vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .question-text{
-    font-size: 1.5rem;
-  }
-  
-  .header{
-    height: 10vh;
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .question-category {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.5rem;
-    width: 100%;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  #next-btn {
-    background-color: #45A3E5;
-      color: white;
-      font-size: 16px;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-      margin: 0 15px;
-      max-height: 35px;
-  }
-  
-  #next-btn:disabled{
-    background-color: #D1D1D1;
-      cursor: not-allowed;
-      pointer-events: none;
-      opacity: 0.5;
-  }
-  
-  .choices-grid {
-    height: 40vh;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    padding: 0 10px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  
-  .choice-card {
-    flex: 1 1 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 600;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-  
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
-      filter: brightness(1.1);
-    }
-  }
-  
-  .choice-card.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  
-  
-  .shape-container {
-    width: 35px;
-    height: 35px;
-    flex-shrink: 0;
-    margin: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .circle,
-  .square,
-  .diamond {
-    width: 100%;
-    height: 100%;
-    background-color: white;
-  }
-  
-  .circle {
-    border-radius: 50%;
-  }
-  
-  .square {
-    width: 35px;
-    height: 35px;
-  }
-  
-  .diamond {
-    transform: rotate(45deg);
-  }
-  
-  .text-content {
-    flex: 1;
-    font-size: 1.3rem;
-    word-wrap: break-word;
-    white-space: normal;
-    z-index: 1;
-  }
-  
+}

@@ -1,31 +1,24 @@
-<div class="question-container">
-    <div class="question">
-      <div class="header">
-        <div class="question-category">
-            {{ currentQuestion.category }}
-          </div>
-          <button id="next-btn" [disabled]="selectedChoiceIndex === null">Next</button>
+<div class="assess-container">
+
+  <app-choice
+    *ngIf="currentQuestion; else assessmentFinished"
+    [currentQuestion]="currentQuestion"
+    (onAnswer)="handleAnswer($event)">
+  </app-choice>
+
+  <ng-template #assessmentFinished>
+    <div class="finished-container">
+      <div class="finished-header">
+        Assessment Complete!
       </div>
-      <div class="question-text-container">
-        <div class="question-text">
-            {{ currentQuestion.text }}
-        </div>
+      <div class="finished-content">
+        <h2 class="finished-title">You're All Done!</h2>
+        <p class="finished-text">Thank you for completing the questionnaire.</p>
+        <button class="results-button">
+          View Results
+        </button>
       </div>
     </div>
-  
-    <div class="choices-grid">
-        <div 
-        *ngFor="let choice of choices; let i = index" 
-        class="choice-card"
-        [style.background-color]="choice.backgroundColor"
-        [class.disabled]="isDisabled(i)"
-        (click)="onSelectChoice(i)"
-      >
-        <div class="shape-container">
-          <div [ngClass]="choice.shape"></div>
-        </div>
-        <div class="text-content">{{ choice.text }}</div>
-      </div>        
-    </div>    
-  </div>
-  
+  </ng-template>
+
+</div>
