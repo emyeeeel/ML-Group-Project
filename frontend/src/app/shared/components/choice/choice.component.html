@@ -1,0 +1,13 @@
+<div class="choices-grid">
+    <div 
+      *ngFor="let choice of choices" 
+      class="choice-card"
+      [style.background-color]="choice.backgroundColor"
+    >
+      <div class="shape-container">
+        <div [ngClass]="choice.shape"></div>
+      </div>
+      <div class="text-content">{{ choice.text }}</div>
+    </div>
+  </div>
+  
