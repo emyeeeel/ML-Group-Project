@@ -18,8 +18,8 @@
       <!-- Show this if Game PIN matches -->
       <div *ngIf="gameIdMatched">
         <div class="form-group">
-          <input id="name" type="text" class="input" placeholder="Enter name" />
-          <input id="age" type="text" class="input" placeholder="Enters age" />
+          <input id="name" type="text" class="input" placeholder="Enter name" [(ngModel)]="user.name"/>
+          <input id="age" type="text" class="input" placeholder="Enters age" [(ngModel)]="user.age"/>
         </div>
         <button class="enter-btn" (click)="onSubmit()">Ok, go!</button>
       </div>

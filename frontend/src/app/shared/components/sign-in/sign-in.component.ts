@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,6 +14,11 @@ export class SignInComponent {
   gameIdInput: string = '';
   gameIdMatched: boolean = false;
 
+  user: User = {
+    name: '',
+    age: null
+  };
+
   constructor(private router: Router) {}
 
   onEnterClick() {
@@ -23,7 +29,10 @@ export class SignInComponent {
     }
   }
 
-  onSubmit(){
+  onSubmit() {
+    console.log(this.user);
+    localStorage.setItem('user', JSON.stringify(this.user));
+    console.log('User saved to local storage');
     this.router.navigate(['/assess']);
   }
 }
