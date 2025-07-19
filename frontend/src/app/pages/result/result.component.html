@@ -1,11 +1,57 @@
-<div class="login-background">
-    <!-- Your login form or other content here -->
-     <div class="result-title">
-        <h1>Scoreboard</h1>
-     </div>
-     <div class="footer">
-        <span>Copyright © Team AI-dk</span>
-        <a class="home-link" href="/">Back to Start</a>
-    </div>
-</div>
+<div class="result-background" *ngIf="predictions && scores && interpretations">
   
+  <div class="result-header">
+    <h1>Scoreboard</h1>
+  </div>
+
+  <div class="result-scroll-container">
+
+    <div class="result-card">
+      <h2 class="card-title">Risk Prediction Results</h2>
+      <div class="prediction-item">
+        <p class="prediction-label">Inattentive Risk:</p>
+        <p class="prediction-value">{{ riskLevelMap[predictions.predictions.inattentive_result] }}</p>
+      </div>
+      <div class="prediction-item">
+        <p class="prediction-label">Hyperactive/Impulsive Risk:</p>
+        <p class="prediction-value">{{ riskLevelMap[predictions.predictions.hyperactive_impulsive_result] }}</p>
+      </div>
+      <div class="prediction-item">
+        <p class="prediction-label">Oppositional/Defiant Risk:</p>
+        <p class="prediction-value">{{ riskLevelMap[predictions.predictions.oppositional_defiant_result] }}</p>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <h2 class="card-title">ScreenQ Subscale Scores</h2>
+      <div class="scores-grid">
+        <div class="score-item">
+          <p class="score-label">Access</p>
+          <p class="score-value">{{ scores.access }}</p>
+        </div>
+        <div class="score-item">
+          <p class="score-label">Frequency</p>
+          <p class="score-value">{{ scores.frequency }}</p>
+        </div>
+        <div class="score-item">
+          <p class="score-label">Content</p>
+          <p class="score-value">{{ scores.content }}</p>
+        </div>
+        <div class="score-item">
+          <p class="score-label">Interactivity</p>
+          <p class="score-value">{{ scores.interactivity }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <h2 class="card-title">Interpretation & Recommendations</h2>
+      <div class="interpretation-text" [innerHTML]="getFormattedAnalysis()"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Copyright © Team AI-dk</span>
+    <a class="home-link" (click)="backToStart()">Back to Start</a>
+  </div>
+</div>

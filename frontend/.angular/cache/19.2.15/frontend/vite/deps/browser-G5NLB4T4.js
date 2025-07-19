@@ -1,11 +1,13 @@
 import {
   Injectable,
   RuntimeError,
-  __objRest,
-  __spreadValues,
   setClassMetadata,
   ɵɵdefineInjectable
-} from "./chunk-LKBYGJ3F.js";
+} from "./chunk-MTES5EJZ.js";
+import {
+  __objRest,
+  __spreadValues
+} from "./chunk-S35MAB2V.js";
 
 // node_modules/@angular/animations/fesm2022/private_export-faY_wCkZ.mjs
 var AnimationMetadataType;
@@ -4361,4 +4363,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=browser-5ZX55ZXA.js.map
+//# sourceMappingURL=browser-G5NLB4T4.js.map
