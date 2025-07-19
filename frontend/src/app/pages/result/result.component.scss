@@ -9,13 +9,20 @@
     flex-direction: column;
   }
 
-  .details-container{
-    height: 50px;
+  .result-title{
     width: 250px;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px, rgba(0, 0, 0, 0.25) 0px -4px inset;
     background: rgb(255, 254, 255);
     color: rgb(51, 51, 51); 
     border-radius: 4px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h1{
+        color: #333333;
+    }
   }
 
   .footer{

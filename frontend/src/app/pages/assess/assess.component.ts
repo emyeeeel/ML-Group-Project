@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ChoiceComponent } from '../../shared/components/choice/choice.component';
 import { ASSESSMENT_QUESTIONS, Question } from '../../shared/constants/questions';
 import { User } from '../../models/user';
+import { ClassifierService } from '../../services/classifier.service';
 
 @Component({
   selector: 'app-assess',
@@ -22,7 +23,10 @@ export class AssessComponent implements OnInit {
   userAnswers: { [key: string]: any } = {}; // Store all answers here
   user: User | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private classifierService: ClassifierService
+  ) {}
 
   ngOnInit(): void {
     const storedUser = localStorage.getItem('user');
@@ -53,6 +57,23 @@ export class AssessComponent implements OnInit {
   }
 
   finishAssessment(): void {
-    console.log('Final payload to send:', this.userAnswers);
+    console.log('Final payload to send:', this.userAnswers); 
+    this.classifierService.classify(this.userAnswers).subscribe({
+      next: (response) => {
+        console.log('Prediction response:', response);
+      },
+      error: (err) => {
+        console.error('Error posting to classifier:', err);
+      }
+    });
+
+    this.classifierService.interpret(this.userAnswers).subscribe({
+      next: (response) => {
+        console.log('Interpretation response:', response);
+      },
+      error: (err) => {
+        console.error('Error posting to llm analyzer:', err);
+      }
+    });
   }
 }
