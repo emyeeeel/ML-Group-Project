@@ -88,7 +88,8 @@
       <div class="result-card">
         <div class="interpretation-results">
             <div class="intepretation-text">
-                <div class="interpretation-text" [innerHTML]="getFormattedAnalysis()"></div>
+                <div [innerHTML]="getFormattedAnalysis()" style="white-space: pre-wrap;"></div>
+
             </div>
         </div>
       </div>

@@ -15,8 +15,8 @@ export class ResultComponent implements OnInit {
   interpretations: any = null;
   scores: any = null;
   recommendations: any = null;
-  recommendation_header: string = '';
-  interpretation_header: string = '';
+  recommendation_header: string = 'Based on the feature values and predicted results, the following recommendations can be made:';
+  interpretation_header: string = 'Based on the provided results, here is a clinical interpretation of the features and their relationships to the predicted results:' ;
 
   readonly riskLevelMap: { [key: number]: string } = {
     0: 'Symptoms not clinically significant',
@@ -33,38 +33,8 @@ export class ResultComponent implements OnInit {
     if (state && state.predictions && state.scores && state.interpretations) {
       this.predictions = state.predictions;
       this.scores = state.scores;
-      const fullAnalysis = state.interpretations.analysis || '';
-  
-      // Split based on recommendations header
-      const splitText = fullAnalysis.split('**Recommendations for Intervention**');
-      let rawInterpretation = splitText[0]?.trim() || '';
-      let rawRecommendations = splitText[1]?.trim() || '';
-  
-      // Extract and remove header from interpretation (first non-empty line)
-      const interpretationLines = rawInterpretation
-        .split('\n')
-        .filter((line: string) => line.trim() !== '');
-  
-      if (interpretationLines.length > 0) {
-        this.interpretation_header = interpretationLines[0].replace(/\*/g, '').trim(); // e.g., remove "**"
-        interpretationLines.shift(); // Remove header line
-      }
-  
-      this.interpretations = {
-        analysis: interpretationLines.join('\n').trim()
-      };
-  
-      // ✅ Extract first sentence for recommendation_header
-      const firstSentenceMatch = rawRecommendations.match(/^([\s\S]*?)(?=\n?\d+\.\s)/);
-      if (firstSentenceMatch) {
-        this.recommendation_header = firstSentenceMatch[1].trim();
-        rawRecommendations = rawRecommendations.slice(firstSentenceMatch[1].length).trim();
-      } else {
-        this.recommendation_header = 'Recommendations for Intervention';
-      }
-
-  
-      this.recommendations = rawRecommendations;
+      this.interpretations = state.interpretations;
+      console.log(this.interpretations)
   
       console.log('Data successfully received on result page:', state);
     } else {
@@ -73,80 +43,86 @@ export class ResultComponent implements OnInit {
     }
   }
   
-
-  getFormattedAnalysis(): SafeHtml {
-    const analysisText = this.interpretations?.analysis || '';
   
-    const categories = [
-      { key: 'Inattentive Result:', label: 'Inattentive Result' },
-      { key: 'Hyperactive Impulsive Result:', label: 'Hyperactive/Impulsive Result' },
-      { key: 'Oppositional Defiant Result:', label: 'Oppositional/Defiant Result' }
+
+  getFormattedAnalysis(): string {
+    let analysisText = this.interpretations?.analysis || '';
+  
+    // Remove everything before the first colon
+    const colonIndex = analysisText.indexOf(':');
+    if (colonIndex !== -1) {
+      analysisText = analysisText.slice(colonIndex + 1);
+    }
+
+    // Remove everything after "Recommendations for Intervention"
+    const recommendationIndex = analysisText.search(/recommendations for intervention/i);
+    if (recommendationIndex !== -1) {
+      analysisText = analysisText.slice(0, recommendationIndex);
+    }
+  
+    // ✅ Remove single * but retain **
+    analysisText = analysisText.replace(/(?<!\*)\*(?!\*)/g, '');
+    analysisText = analysisText.replace(/\*\*(?![a-zA-Z])/g, '');
+  
+  
+    // Highlight important keywords
+    const keywords = [
+      'Inattention',
+      'Hyperactivity/Impulsivity',
+      'Oppositional/Defiant Behavior',
+      'Age and Grade Level',
+      'Gender and Family Structure',
+      'Screen Access',
+      'Screen Usage Habits',
+      'Screen Content',
+      'Interactivity',
+      'Sleep and Bedtime Routine',
+      'Parental Involvement',
+      'Relationships to Predicted Results'
     ];
   
-    const unwantedPhrases = [
-      'Symptoms not clinically significant \\(Class: 0\\)',
-      'Mild symptoms \\(Class: 1\\)',
-      'Moderate symptoms \\(Class: 2\\)',
-      'Severe symptoms \\(Class: 3\\)'
-    ];
-  
-    const formattedSections = categories.map(({ key, label }) => {
-      const regex = new RegExp(`${key}(.*?)(?=${categories.map(c => c.key).filter(k => k !== key).join('|')}|$)`, 's');
-      const match = analysisText.match(regex);
-  
-      if (!match) return '';
-  
-      let content = match[1].trim();
-  
-      // Remove unwanted symptom description lines
-      for (const phrase of unwantedPhrases) {
-        const removeRegex = new RegExp(phrase, 'g');
-        content = content.replace(removeRegex, '');
-      }
-  
-      // Remove asterisks, trim extra newlines and normalize spacing
-      content = content.replace(/\*/g, '').replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
-  
-      // Emphasize keywords
-      content = content.replace(
-        /(age|gender|grade level|family structure|screen access|screen usage patterns|content level|interactivity level|total access score|total frequency score)/gi,
-        '<strong>$1</strong>'
-      );
-  
-      const sentences: string[] = content
-        .split(/(?<=\.)\s+/)
-        .filter((p: string) => p.trim() !== '');
-
-      const bulletPoints: string = sentences
-        .map((p: string) => `<li>${p.trim()}</li>`)
-        .join('');
-
-  
-      return `
-        <div class="analysis-section">
-          <h3>${label}</h3>
-          <ul class="analysis-points">${bulletPoints}</ul>
-        </div>
-      `;
+    keywords.forEach(word => {
+      const regex = new RegExp(`\\b(${word})\\b`, 'g');
+      analysisText = analysisText.replace(regex, '<strong>$1</strong>');
     });
   
-    const formattedHtml = formattedSections.join('');
-    return this.sanitizer.bypassSecurityTrustHtml(formattedHtml);
+    // Preserve paragraph formatting using <br><br>
+    analysisText = analysisText
+      .split(/\n{2,}/) // Split by double line breaks
+      .map((p: string) => p.trim())
+      .join('<br><br>');
+  
+    return analysisText.trim();
   }
+  
+  
+  
+  
+  
+  
+  
   
   
   
 
   getFormattedRecommendations(): string {
-    const text: string = this.recommendations || '';
+    // Get the recommendations and remove all asterisks
+    const text: string = (this.recommendations || '').replace(/\*/g, '');
   
-    // Split the text by numbers like "1. ", "2. ", etc.
-    const parts: string[] = text.split(/(?=\d+\.\s)/);
+    // Find the index where the first "1. " appears
+    const firstIndex = text.search(/\b1\.\s/);
   
+    // If found, slice from that index; otherwise use the original text
+    const cleanedText = firstIndex !== -1 ? text.slice(firstIndex) : text;
+  
+    // Split and format as bullet points (extra line between each)
+    const parts: string[] = cleanedText.split(/(?=\d+\.\s)/);
     const formatted: string = parts.map((part: string) => part.trim()).join('\n\n');
   
     return formatted;
   }
+  
+  
   
 
   backToStart(): void {
