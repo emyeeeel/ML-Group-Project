@@ -37,35 +37,57 @@ export class ResultComponent implements OnInit {
       console.log(this.interpretations)
   
       console.log('Data successfully received on result page:', state);
+
+      // Extracting the portion starting from "recommendations for intervention"
+      const analysisText = this.interpretations?.analysis || '';
+      const recommendationIndex = analysisText.search(/recommendations for intervention/i);
+
+      if (recommendationIndex !== -1) {
+        // Slice the text from the recommendation section onward
+        this.recommendations = analysisText.slice(recommendationIndex);
+        console.log('Recommendations Extracted:', this.recommendations);
+      } else {
+        // Handle case where the "recommendations for intervention" section is not found
+        this.recommendations = '';
+        console.log('No recommendations found in the analysis text.');
+      }
     } else {
       console.log('No data found in history state, redirecting to login.');
       this.router.navigate(['/login']);
     }
   }
   
-  
 
   getFormattedAnalysis(): string {
     let analysisText = this.interpretations?.analysis || '';
   
-    // Remove everything before the first colon
     const colonIndex = analysisText.indexOf(':');
     if (colonIndex !== -1) {
-      analysisText = analysisText.slice(colonIndex + 1);
+      analysisText = analysisText.slice(colonIndex + 1); 
     }
-
-    // Remove everything after "Recommendations for Intervention"
+  
     const recommendationIndex = analysisText.search(/recommendations for intervention/i);
     if (recommendationIndex !== -1) {
       analysisText = analysisText.slice(0, recommendationIndex);
     }
   
-    // ✅ Remove single * but retain **
-    analysisText = analysisText.replace(/(?<!\*)\*(?!\*)/g, '');
-    analysisText = analysisText.replace(/\*\*(?![a-zA-Z])/g, '');
+    analysisText = analysisText.replace(/\*\s*/g, '');
   
+    analysisText = analysisText.replace(
+      /(Symptoms not clinically significant \(Class: 0\)|Mild symptoms \(Class: 1\)|Moderate symptoms \(Class: 2\)|Severe symptoms \(Class: 3\))/gi,
+      ''
+    );
   
-    // Highlight important keywords
+    let finalAnalysisText = '';
+    
+    for (let i = 0; i < analysisText.length; i++) {
+      if (analysisText[i] === ':') {
+        finalAnalysisText += ': \n\n';
+      } else {
+        finalAnalysisText += analysisText[i];
+      }
+    }
+  
     const keywords = [
       'Inattention',
       'Hyperactivity/Impulsivity',
@@ -78,52 +100,38 @@ export class ResultComponent implements OnInit {
       'Interactivity',
       'Sleep and Bedtime Routine',
       'Parental Involvement',
-      'Relationships to Predicted Results'
+      'Relationships to Predicted Results',
+      'Inattentive Result',
+      'Hyperactive Impulsive Result',
+      'Oppositional Defiant Result'
     ];
   
     keywords.forEach(word => {
       const regex = new RegExp(`\\b(${word})\\b`, 'g');
-      analysisText = analysisText.replace(regex, '<strong>$1</strong>');
+      finalAnalysisText = finalAnalysisText.replace(regex, '<strong>$1</strong>');
     });
   
-    // Preserve paragraph formatting using <br><br>
-    analysisText = analysisText
-      .split(/\n{2,}/) // Split by double line breaks
+    finalAnalysisText = finalAnalysisText
+      .split(/\n{2,}/)
       .map((p: string) => p.trim())
       .join('<br><br>');
   
-    return analysisText.trim();
+    return finalAnalysisText.trim();
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    
 
   getFormattedRecommendations(): string {
-    // Get the recommendations and remove all asterisks
     const text: string = (this.recommendations || '').replace(/\*/g, '');
   
-    // Find the index where the first "1. " appears
     const firstIndex = text.search(/\b1\.\s/);
   
-    // If found, slice from that index; otherwise use the original text
     const cleanedText = firstIndex !== -1 ? text.slice(firstIndex) : text;
   
-    // Split and format as bullet points (extra line between each)
     const parts: string[] = cleanedText.split(/(?=\d+\.\s)/);
     const formatted: string = parts.map((part: string) => part.trim()).join('\n\n');
   
     return formatted;
   }
-  
-  
-  
 
   backToStart(): void {
     this.router.navigate(['/login']);
