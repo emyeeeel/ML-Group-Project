@@ -7,46 +7,119 @@
   <div class="result-scroll-container">
 
     <div class="result-card">
-      <h2 class="card-title">Risk Prediction Results</h2>
-      <div class="prediction-item">
-        <p class="prediction-label">Inattentive Risk:</p>
-        <p class="prediction-value">{{ riskLevelMap[predictions.predictions.inattentive_result] }}</p>
+        <h2 class="card-title centered-title">ScreenQ Subscale Scores ✨</h2> <!-- Center title -->
+        <div class="scores-grid">
+          <div class="score-item access-score">
+            <p class="score-label">Access</p>
+            <p class="score-value">{{ scores.access }}</p>
+          </div>
+          <div class="score-item frequency-score">
+            <p class="score-label">Frequency</p>
+            <p class="score-value">{{ scores.frequency }}</p>
+          </div>
+          <div class="score-item content-score">
+            <p class="score-label">Content</p>
+            <p class="score-value">{{ scores.content }}</p>
+          </div>
+          <div class="score-item interactivity-score">
+            <p class="score-label">Interactivity</p>
+            <p class="score-value">{{ scores.interactivity }}</p>
+          </div>
+        </div>
       </div>
-      <div class="prediction-item">
-        <p class="prediction-label">Hyperactive/Impulsive Risk:</p>
-        <p class="prediction-value">{{ riskLevelMap[predictions.predictions.hyperactive_impulsive_result] }}</p>
+      
+
+      <div class="result-card">
+        <h2 class="card-title centered-title">Risk Prediction Results 📝</h2> 
+      
+        <div class="risk-result">
+            <div class="prediction-box">
+                <p class="prediction-label">Inattentive Risk</p> 
+                <div class="symptoms">
+                    <p class="prediction-value">{{ riskLevelMap[predictions.predictions.inattentive_result] }}</p>
+                    <div class="shape" [ngClass]="getShapeClass(predictions.predictions.inattentive_result)"></div>
+
+                </div>
+              </div>
+            
+              <div class="prediction-box">
+                <p class="prediction-label">Hyperactive/Impulsive Risk</p>
+                <div class="symptoms">
+                    <p class="prediction-value">{{ riskLevelMap[predictions.predictions.hyperactive_impulsive_result] }}</p>
+                    <div class="shape" [ngClass]="getShapeClass(predictions.predictions.hyperactive_impulsive_result)"></div>
+                </div>
+              </div>
+            
+              <div class="prediction-box">
+                <p class="prediction-label">Oppositional/Defiant Risk</p>
+                <div class="symptoms">
+                    <p class="prediction-value">{{ riskLevelMap[predictions.predictions.oppositional_defiant_result] }}</p>
+                    <div class="shape" [ngClass]="getShapeClass(predictions.predictions.oppositional_defiant_result)"></div>
+                </div>
+              </div>
+        </div>
       </div>
-      <div class="prediction-item">
-        <p class="prediction-label">Oppositional/Defiant Risk:</p>
-        <p class="prediction-value">{{ riskLevelMap[predictions.predictions.oppositional_defiant_result] }}</p>
+
+      <div class="result-card">
+        <div class="interpretation-container">
+            <div class="intepretation-text">
+                <h2 class="card-title">Interpretation</h2>
+                <p>{{ interpretation_header }}</p>
+            </div>
+            <div class="results-row">
+                <div class="result-box" [ngClass]="getResultBoxClass(predictions.predictions.inattentive_result)">
+                    <p>Inattentive Risk</p>
+                    <p>{{ riskLevelMap[predictions.predictions.inattentive_result] }}</p>
+                  </div>
+                  
+                  <div class="result-box" [ngClass]="getResultBoxClass(predictions.predictions.hyperactive_impulsive_result)">
+                    <p>Hyperactive/Impulsive Risk</p>
+                    <p>{{ riskLevelMap[predictions.predictions.hyperactive_impulsive_result] }}</p>
+                  </div>
+                  
+                  <div class="result-box" [ngClass]="getResultBoxClass(predictions.predictions.oppositional_defiant_result)">
+                    <p>Oppositional/Defiant Risk</p>
+                    <p>{{ riskLevelMap[predictions.predictions.oppositional_defiant_result] }}</p>
+                  </div>
+              </div>
+              
+        </div>
       </div>
-    </div>
+      <div class="result-card">
+        <div class="interpretation-results">
+            <div class="intepretation-text">
+                <div class="interpretation-text" [innerHTML]="getFormattedAnalysis()"></div>
+            </div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="recommendation-container">
+            <div class="recommendation-text">
+                <h2 class="card-title">Recommendations for Intervention</h2>
+                <p>{{ recommendation_header }}</p>
+            </div>
+            <div class="results-row">
+                <div class="result-box" [ngClass]="getResultBoxClass(predictions.predictions.inattentive_result)">
+                    <p>Inattentive Risk</p>
+                    <p>{{ riskLevelMap[predictions.predictions.inattentive_result] }}</p>
+                  </div>
+                  
+                  <div class="result-box" [ngClass]="getResultBoxClass(predictions.predictions.hyperactive_impulsive_result)">
+                    <p>Hyperactive/Impulsive Risk</p>
+                    <p>{{ riskLevelMap[predictions.predictions.hyperactive_impulsive_result] }}</p>
+                  </div>
+                  
+                  <div class="result-box" [ngClass]="getResultBoxClass(predictions.predictions.oppositional_defiant_result)">
+                    <p>Oppositional/Defiant Risk</p>
+                    <p>{{ riskLevelMap[predictions.predictions.oppositional_defiant_result] }}</p>
+                  </div>
+              </div>
+        </div>
+      </div>
 
     <div class="result-card">
-      <h2 class="card-title">ScreenQ Subscale Scores</h2>
-      <div class="scores-grid">
-        <div class="score-item">
-          <p class="score-label">Access</p>
-          <p class="score-value">{{ scores.access }}</p>
-        </div>
-        <div class="score-item">
-          <p class="score-label">Frequency</p>
-          <p class="score-value">{{ scores.frequency }}</p>
-        </div>
-        <div class="score-item">
-          <p class="score-label">Content</p>
-          <p class="score-value">{{ scores.content }}</p>
-        </div>
-        <div class="score-item">
-          <p class="score-label">Interactivity</p>
-          <p class="score-value">{{ scores.interactivity }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="result-card">
-      <h2 class="card-title">Interpretation & Recommendations</h2>
-      <div class="interpretation-text" [innerHTML]="getFormattedAnalysis()"></div>
+        <div class="recommendation-list-text" [innerText]="getFormattedRecommendations()"></div>
     </div>
   </div>
 

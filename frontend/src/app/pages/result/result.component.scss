@@ -1,148 +1,310 @@
 .result-background {
-  background-color: #203BA7;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden; 
-  display: flex;
-  flex-direction: column; 
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-.result-header {
-  height: 10vh;
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  flex-shrink: 0; 
-
-  h1 {
-    color: #333333;
+    background-color: #E0E0E0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    color: #494949;
+    font-family: Arial, sans-serif;
+  }
+  
+  .result-header {
+    height: 10vh;
+    background-color: #EFEFEF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+  
+    h1 {
+      color: #333333;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  
+  .result-scroll-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  
+  .result-card {
+    background-color: #EFEFEF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+  }
+  
+  .card-title {
     font-size: 1.5rem;
-    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .card-title.centered-title {
+    text-align: center;
+  }
+  
+  /* ScreenQ Score Styling */
+  .scores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .score-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    color: #E3F0DC;
+  }
+  
+  .access-score {
+    background-color: #4C5BC2;
+  }
+  
+  .frequency-score {
+    background-color: #61AC4F;
+  }
+  
+  .content-score {
+    background-color: #BA4B44;
+  }
+  
+  .interactivity-score {
+    background-color: #E2B540;
+  }
+  
+  .score-label {
+    font-size: 1rem;
+    color: #E3F0DC;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .score-value {
+    font-size: 2.5rem;
     font-weight: bold;
     margin: 0;
   }
-}
-
-
-.result-scroll-container {
-  flex-grow: 1; 
-  overflow-y: auto; 
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.result-card {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 1.5rem;
-  width: 100%;
-  max-width: 900px; 
-}
-
-.card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.prediction-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-  &:last-child {
-    border-bottom: none;
+  
+  /* Risk Prediction Section */
+  .risk-result {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
-}
+  
+  .prediction-box {
+    flex: 1 1 250px;
+    display: flex;
+    flex-direction: column;
+    background-color: #E0E0E0;
+    border-radius: 15px;
+    padding: 1rem;
+    color: #545454;
+    box-sizing: border-box;
+    min-width: 250px;
+    gap: 25px;
+  }
+  
+  .prediction-label {
+    font-size: 1rem;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+  }
+  
+  
+  .prediction-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex: 1;
+    margin: 0;
+    max-width: 150px;
+  }
+  
+  
+  /* Interpretation Section */
+  .interpretation-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #d0d0f0;
+  
+    strong {
+      color: white;
+      font-weight: 600;
+    }
+  }
+  
+  /* Footer */
+  .footer {
+    width: 100%;
+    height: 50px;
+    background-color: #D1D1D1;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    flex-shrink: 0;
+  
+    span {
+      font-size: 14px;
+      color: #4B4B4B;
+    }
+  
+    .home-link {
+      margin-left: auto;
+      margin-right: 40px;
+      text-decoration: none;
+      color: #4B4B4B;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+  
+  .symptoms {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-between;
+    width: 100%;         
+  }
 
-.prediction-label {
-  font-size: 1rem;
-  color: #d0d0f0;
-}
+  .shape {
+    width: 40px;
+    height: 40px;
+    margin-left: 1rem;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+  }
+  
+/* 0: Safe / Normal - Blue Diamond */
+.shape-none {
+    background-color: #485CC7;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    border-radius: 8px; // Slightly rounded diamond
+  }
+  
+  /* 1: Mild - Green Circle */
+  .shape-mild {
+    background-color: #42AE42;
+    border-radius: 50%; // Circle
+  }
+  
+  /* 2: Moderate - Yellow Square */
+  .shape-moderate {
+    background-color: #E8B312;
+    border-radius: 4px; // Soft square
+  }
+  
+  /* 3: Severe - Red Triangle */
+  .shape-severe {
+    background-color: #C84040;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    border-radius: 6px; // Rounded triangle edges
+  }
+  
+  .interpretation-text, .recommendation-text{
+    color: #4E4E4E;
+  }
 
-.prediction-value {
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: right;
-}
+  .results-row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .result-box {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    text-align: center;
+    flex: 1 1 120px;
+    min-width: 120px;
+    max-width: 180px;
+    padding: .8rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  
+  .result-box p:first-child {
+    font-size: .9rem;
+    font-weight: 500;
+    text-align: left;
+  }
+  
+  .result-box p:last-child {
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .interpretation-container, .recommendation-container  {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
-.scores-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-}
+    .intepretation-text, .recommendation-text{
+        max-width: 350px;
 
-.score-item {
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-}
+        .card-title{
+            font-size: 1.5rem;
+        }
+      }
+  }
 
-.score-label {
-  font-size: 1rem;
-  color: #d0d0f0;
-  margin: 0 0 0.5rem 0;
-}
 
-.score-value {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 0;
-}
-
-.interpretation-text {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #d0d0f0;
-
-  strong {
+  .result-box-none {
+    background-color: #485CC7; // Blue
     color: white;
-    font-weight: 600;
   }
-}
-
-
-.footer {
-  width: 100%;
-  height: 50px;
-  background-color: #0F1B4D;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  justify-content: space-between;
-  flex-shrink: 0; 
-
-  span {
-    font-size: 14px;
-    color: #fff;
+  
+  .result-box-mild {
+    background-color: #42AE42; // Green
+    color: white;
   }
-
-  .home-link {
-    margin-left: auto;
-    margin-right: 40px;
-    text-decoration: none;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
+  
+  .result-box-moderate {
+    background-color: #E8B312; // Yellow
+    color: #4E4E4E;
   }
-}
+  
+  .result-box-severe {
+    background-color: #C84040; // Red
+    color: white;
+  }
+  
+  
+  

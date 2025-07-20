@@ -80,8 +80,8 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
     id: 'gender', 
     text: 'Gender', 
     choices: [
-      { value: 0, label: 'Female' },
-      { value: 1, label: 'Male' },
+      { value: 0, label: 'Male' },
+      { value: 1, label: 'Female' },
     ],
     category: 'demographics' 
   },
@@ -114,7 +114,7 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
       { value: 0, label: 'No' },
       { value: 1, label: 'Yes' }
     ],
-    category: 'screen_access'
+    category: 'access'
   },
   { 
     id: 'do_you_have_your_own__phone,_tablet,_or_other__portable_screen?', 
@@ -123,7 +123,7 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
       { value: 0, label: 'No' },
       { value: 1, label: 'Yes' }
     ],
-    category: 'screen_access'
+    category: 'access'
   },
   { 
     id: 'do_you_use_screens__during_meals_(breakfast,__lunch,_or_dinner)?', 
@@ -132,7 +132,7 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
       { value: 0, label: 'No' },
       { value: 1, label: 'Yes' }
     ],
-    category: 'screen_access'
+    category: 'access'
   },
   { 
     id: 'do_you_use_screens__on_school_nights__(monday_to_friday)?', 
@@ -141,7 +141,7 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
       { value: 0, label: 'No' },
       { value: 1, label: 'Yes' }
     ],
-    category: 'screen_access'
+    category: 'access'
   },
   { 
     id: 'do_you_use_screens_while__waiting_(e.g.,_in_line_or_in__the_car)?', 
@@ -150,7 +150,7 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
       { value: 0, label: 'No' },
       { value: 1, label: 'Yes' }
     ],
-    category: 'screen_access'
+    category: 'access'
   },
 
   // SCREEN Q - B. How Often You Use Screens
@@ -178,9 +178,9 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
     id: 'do_you_use_screens__at_bedtime_to_help__you_fall_asleep?', 
     text: 'Do you use screens at bedtime to help you fall asleep?', 
     choices: [
-      { value: 0, label: 'Often' },
+      { value: 2, label: 'Often' },
       { value: 1, label: 'Sometimes' },
-      { value: 2, label: 'Never' },
+      { value: 0, label: 'Never' },
     ],
     category: 'frequency'
   },
@@ -188,9 +188,9 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
     id: 'do_you_use_screens__when_you’re_feeling__upset_to_calm_down?', 
     text: 'Do you use screens when you’re feeling upset to calm down?', 
     choices: [
-      { value: 0, label: 'Often' },
+      { value: 2, label: 'Often' },
       { value: 1, label: 'Sometimes' },
-      { value: 2, label: 'Never' },
+      { value: 0, label: 'Never' },
     ],
     category: 'frequency'
   },
@@ -200,9 +200,9 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
     id: 'do_you_watch_or_play__things_that_have_fighting__or_violence?', 
     text: 'Do you watch or play things that have fighting or violence?', 
     choices: [
-      { value: 0, label: 'Often' },
+      { value: 2, label: 'Often' },
       { value: 1, label: 'Sometimes' },
-      { value: 2, label: 'Never' },
+      { value: 0, label: 'Never' },
     ],
     category: 'content'
   },
@@ -210,9 +210,9 @@ export const ASSESSMENT_QUESTIONS: Question[] = [
     id: 'do_you_choose_your__own_shows_or_download__your_own_apps?', 
     text: 'Do you choose your own shows or download your own apps?', 
     choices: [
-      { value: 0, label: 'Often' },
+      { value: 2, label: 'Often' },
       { value: 1, label: 'Sometimes' },
-      { value: 2, label: 'Never' },
+      { value: 0, label: 'Never' },
     ],
     category: 'content'
   },
@@ -272,7 +272,7 @@ export type QuestionCategory = 'demographics' | 'access' | 'frequency' | 'conten
 
 export const QUESTIONS_BY_CATEGORY: Record<QuestionCategory, Question[]> = {
   demographics: ASSESSMENT_QUESTIONS.filter(q => q.category === 'demographics'),
-  access: ASSESSMENT_QUESTIONS.filter(q => q.category === 'screen_access'),
+  access: ASSESSMENT_QUESTIONS.filter(q => q.category === 'access'),
   frequency: ASSESSMENT_QUESTIONS.filter(q => q.category === 'frequency'),
   content: ASSESSMENT_QUESTIONS.filter(q => q.category === 'content'),
   interactivity: ASSESSMENT_QUESTIONS.filter(q => q.category === 'interactivity')
