@@ -305,7 +305,34 @@
     background-color: #C84040; // Red
     color: white;
   }
-  
-  
-  
-  
+
+
+.interpretation-content {
+  padding: 0.5rem 1rem;
+  text-align: left;
+
+  .interpretation-subheader {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+
+  pre {
+    white-space: pre-wrap;      
+    word-wrap: break-word;    
+    font-family: Arial, sans-serif; 
+    font-size: 1rem;
+    color: #494949;
+    line-height: 1.6;
+  }
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bold-label {
+  font-weight: bold;
+}

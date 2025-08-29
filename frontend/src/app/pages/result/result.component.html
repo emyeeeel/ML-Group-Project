@@ -1,4 +1,4 @@
-<div class="result-background" *ngIf="predictions && scores && interpretations">
+<div class="result-background" *ngIf="predictions && scores">
   
   <div class="result-header">
     <h1>Scoreboard</h1>
@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <div class="result-card">
+      <!-- <div class="result-card">
         <div class="interpretation-container">
             <div class="intepretation-text">
                 <h2 class="card-title">Interpretation</h2>
@@ -84,17 +84,19 @@
               </div>
               
         </div>
-      </div>
-      <div class="result-card">
-        <div class="interpretation-results">
+      </div> -->
+      <!-- <div class="result-card">
+        <!-- <div class="interpretation-results">
             <div class="intepretation-text">
                 <div [innerHTML]="getFormattedAnalysis()" style="white-space: pre-wrap;"></div>
 
             </div>
-        </div>
-      </div>
+        </div> 
 
-      <div class="result-card">
+        <h2 class="card-title centered-title">Interpretation & Recommendations</h2>
+      </div> -->
+
+      <!-- <div class="result-card">
         <div class="recommendation-container">
             <div class="recommendation-text">
                 <h2 class="card-title">Recommendations for Intervention</h2>
@@ -117,11 +119,37 @@
                   </div>
               </div>
         </div>
-      </div>
+      </div> -->
 
     <div class="result-card">
-        <div class="recommendation-list-text" [innerText]="getFormattedRecommendations()"></div>
+      <h2 class="card-title centered-title">Score Interpretation</h2>
+      <div class="interpretation-content">
+          <p class="interpretation-subheader">Based on the scores from the ScreenQ assessment, here is a breakdown of what each category suggests:</p>
+          <div class="list-container">
+            <p *ngFor="let item of scoreInterpretationItems" [innerHTML]="boldFirstPart(item)"></p>
+          </div>
+      </div>
     </div>
+
+    <div class="result-card">
+      <h2 class="card-title centered-title">Clinical Interpretation</h2>
+      <div class="interpretation-content">
+          <p class="interpretation-subheader">{{ clinicalInterpretation }}</p>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <h2 class="card-title centered-title">Recommendations for Intervention</h2>
+      <div class="interpretation-content">
+          <div class="list-container">
+            <p *ngFor="let item of recommendationsItems; let i = index">
+                <span class="bold-label">{{ i + 1 }}.</span> {{ item }}
+            </p>
+          </div>
+      </div>
+    </div>
+
+
   </div>
 
   <div class="footer">

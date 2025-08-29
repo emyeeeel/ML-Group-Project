@@ -12,11 +12,14 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class ResultComponent implements OnInit {
   predictions: any = null;
-  interpretations: any = null;
   scores: any = null;
-  recommendations: any = null;
-  recommendation_header: string = 'Based on the feature values and predicted results, the following recommendations can be made:';
-  interpretation_header: string = 'Based on the provided results, here is a clinical interpretation of the features and their relationships to the predicted results:' ;
+
+  scoreInterpretationItems: string[] = [];
+  clinicalInterpretation: string = ''; 
+  recommendationsItems: string[] = [];
+
+  // recommendation_header: string = 'Based on the feature values and predicted results, the following recommendations can be made:';
+  // interpretation_header: string = 'Based on the provided results, here is a clinical interpretation of the features and their relationships to the predicted results:' ;
 
   readonly riskLevelMap: { [key: number]: string } = {
     0: 'Symptoms not clinically significant',
@@ -31,106 +34,140 @@ export class ResultComponent implements OnInit {
     const state = history.state;
   
     if (state && state.predictions && state.scores && state.interpretations) {
-      this.predictions = state.predictions;
+       this.predictions = state.predictions;
       this.scores = state.scores;
-      this.interpretations = state.interpretations;
-      console.log(this.interpretations)
-  
-      console.log('Data successfully received on result page:', state);
+      
 
-      // Extracting the portion starting from "recommendations for intervention"
-      const analysisText = this.interpretations?.analysis || '';
-      const recommendationIndex = analysisText.search(/recommendations for intervention/i);
+      const analysisText = state.interpretations?.analysis || '';
+      console.log('Raw Analysis Text:', analysisText);
 
-      if (recommendationIndex !== -1) {
-        // Slice the text from the recommendation section onward
-        this.recommendations = analysisText.slice(recommendationIndex);
-        console.log('Recommendations Extracted:', this.recommendations);
-      } else {
-        // Handle case where the "recommendations for intervention" section is not found
-        this.recommendations = '';
-        console.log('No recommendations found in the analysis text.');
-      }
+
+      this.parseAnalysis(analysisText);
     } else {
       console.log('No data found in history state, redirecting to login.');
       this.router.navigate(['/login']);
     }
   }
-  
 
-  getFormattedAnalysis(): string {
-    let analysisText = this.interpretations?.analysis || '';
-  
-    const colonIndex = analysisText.indexOf(':');
-    if (colonIndex !== -1) {
-      analysisText = analysisText.slice(colonIndex + 1); 
+  private parseAnalysis(analysisText: string): void {
+    if (!analysisText) return;
+
+    const cleanText = analysisText.replace(/\*|:/g, ''); 
+
+    const scoreInterpRegex = /Score Interpretation/;
+    const clinicalInterpRegex = /Clinical Interpretation/;
+    const recommendationsRegex = /Recommendations for Intervention/;
+
+    const parts = cleanText
+      .split(new RegExp(`${scoreInterpRegex.source}|${clinicalInterpRegex.source}|${recommendationsRegex.source}`))
+      .map(p => p.trim());
+
+    if (parts.length > 3) {
+        const scoreText = parts[1] || '';
+        this.clinicalInterpretation = parts[2] || 'Not available.';
+        const recommendText = parts[3] || '';
+
+        // Split score interpretation into individual items
+        this.scoreInterpretationItems = scoreText
+            .split(/(?=Total [A-Za-z]+ Score \(\d+\))/) // Split but keep the delimiter
+            .map(item => item.trim())
+            .filter(item => item.startsWith('Total'));
+
+        // Split recommendations into a numbered list
+        this.recommendationsItems = recommendText.split(/\d+\./).filter(item => item.trim() !== '');
+
+    } else {
+        this.clinicalInterpretation = cleanText;
     }
-  
-    const recommendationIndex = analysisText.search(/recommendations for intervention/i);
-    if (recommendationIndex !== -1) {
-      analysisText = analysisText.slice(0, recommendationIndex);
-    }
-  
-    analysisText = analysisText.replace(/\*\s*/g, '');
-  
-    analysisText = analysisText.replace(
-      /(Symptoms not clinically significant \(Class: 0\)|Mild symptoms \(Class: 1\)|Moderate symptoms \(Class: 2\)|Severe symptoms \(Class: 3\))/gi,
-      ''
-    );
-  
-    let finalAnalysisText = '';
-    
-    for (let i = 0; i < analysisText.length; i++) {
-      if (analysisText[i] === ':') {
-        finalAnalysisText += ': \n\n';
-      } else {
-        finalAnalysisText += analysisText[i];
-      }
-    }
-  
-    const keywords = [
-      'Inattention',
-      'Hyperactivity/Impulsivity',
-      'Oppositional/Defiant Behavior',
-      'Age and Grade Level',
-      'Gender and Family Structure',
-      'Screen Access',
-      'Screen Usage Habits',
-      'Screen Content',
-      'Interactivity',
-      'Sleep and Bedtime Routine',
-      'Parental Involvement',
-      'Relationships to Predicted Results',
-      'Inattentive Result',
-      'Hyperactive Impulsive Result',
-      'Oppositional Defiant Result'
-    ];
-  
-    keywords.forEach(word => {
-      const regex = new RegExp(`\\b(${word})\\b`, 'g');
-      finalAnalysisText = finalAnalysisText.replace(regex, '<strong>$1</strong>');
-    });
-  
-    finalAnalysisText = finalAnalysisText
-      .split(/\n{2,}/)
-      .map((p: string) => p.trim())
-      .join('<br><br>');
-  
-    return finalAnalysisText.trim();
+
   }
+  
+
+  // getFormattedAnalysis(): string {
+  //   let analysisText = this.interpretations?.analysis || '';
+  
+  //   const colonIndex = analysisText.indexOf(':');
+  //   if (colonIndex !== -1) {
+  //     analysisText = analysisText.slice(colonIndex + 1); 
+  //   }
+  
+  //   const recommendationIndex = analysisText.search(/recommendations for intervention/i);
+  //   if (recommendationIndex !== -1) {
+  //     analysisText = analysisText.slice(0, recommendationIndex);
+  //   }
+  
+  //   analysisText = analysisText.replace(/\*\s*/g, '');
+  
+  //   analysisText = analysisText.replace(
+  //     /(Symptoms not clinically significant \(Class: 0\)|Mild symptoms \(Class: 1\)|Moderate symptoms \(Class: 2\)|Severe symptoms \(Class: 3\))/gi,
+  //     ''
+  //   );
+  
+  //   let finalAnalysisText = '';
+    
+  //   for (let i = 0; i < analysisText.length; i++) {
+  //     if (analysisText[i] === ':') {
+  //       finalAnalysisText += ': \n\n';
+  //     } else {
+  //       finalAnalysisText += analysisText[i];
+  //     }
+  //   }
+  
+  //   const keywords = [
+  //     'Inattention',
+  //     'Hyperactivity/Impulsivity',
+  //     'Oppositional/Defiant Behavior',
+  //     'Age and Grade Level',
+  //     'Gender and Family Structure',
+  //     'Screen Access',
+  //     'Screen Usage Habits',
+  //     'Screen Content',
+  //     'Interactivity',
+  //     'Sleep and Bedtime Routine',
+  //     'Parental Involvement',
+  //     'Relationships to Predicted Results',
+  //     'Inattentive Result',
+  //     'Hyperactive Impulsive Result',
+  //     'Oppositional Defiant Result'
+  //   ];
+  
+  //   keywords.forEach(word => {
+  //     const regex = new RegExp(`\\b(${word})\\b`, 'g');
+  //     finalAnalysisText = finalAnalysisText.replace(regex, '<strong>$1</strong>');
+  //   });
+  
+  //   finalAnalysisText = finalAnalysisText
+  //     .split(/\n{2,}/)
+  //     .map((p: string) => p.trim())
+  //     .join('<br><br>');
+  
+  //   return finalAnalysisText.trim();
+  // }
     
 
-  getFormattedRecommendations(): string {
-    const text: string = (this.recommendations || '').replace(/\*/g, '');
+  // getFormattedRecommendations(): string {
+  //   const text: string = (this.recommendations || '').replace(/\*/g, '');
   
-    const firstIndex = text.search(/\b1\.\s/);
+  //   const firstIndex = text.search(/\b1\.\s/);
   
-    const cleanedText = firstIndex !== -1 ? text.slice(firstIndex) : text;
+  //   const cleanedText = firstIndex !== -1 ? text.slice(firstIndex) : text;
   
-    const parts: string[] = cleanedText.split(/(?=\d+\.\s)/);
-    const formatted: string = parts.map((part: string) => part.trim()).join('\n\n');
+  //   const parts: string[] = cleanedText.split(/(?=\d+\.\s)/);
+  //   const formatted: string = parts.map((part: string) => part.trim()).join('\n\n');
   
-    return formatted;
+  //   return formatted;
+  // }
+
+  boldFirstPart(text: string): string {
+    const match = text.match(/^(Total .*? Score \(\d+\))/);
+
+    if (match && match[1]) {
+      const label = match[1];
+      const restOfText = text.substring(label.length).trim();
+      return `<span class="bold-label">${label}:</span> ${restOfText}`;
+    }
+    
+    return text; 
   }
 
   backToStart(): void {

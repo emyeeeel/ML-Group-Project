@@ -123,15 +123,17 @@ def groq_analysis(child_data_text, results_text):
     
     RESULTS:
     {results_text}
+
+    As a professional psychometrician, please provide the following in three clearly marked sections:
     
-    Please provide:
-    1. Clinical interpretation of features especially in the levels high or low and their relationships to the predicted results
-    2. Recommendations for intervention
+    1. **Score Interpretation**: Based on the 'Total Access Score', 'Total Frequency Score', 'Total Content Score', and 'Total Interactivity Score' values provided in the FEATURES section, provide a brief interpretation for each score. Explain what the user's score in each category suggests about their screen media habits.
+    2. **Clinical Interpretation**: Provide a holistic clinical interpretation of all the features and their relationships to the predicted ADHD-related symptom risks from the RESULTS section.
+    3. **Recommendations for Intervention**: Based on the entire analysis, provide a list of actionable recommendations for parents or guardians.
     """
     
     response = client.chat.completions.create(
         messages=[
-                # {"role": "system", "content": "You are a clinical psychologist analyzing child attention data."},
+                {"role": "system", "content": "You are a helpful assistant acting as a professional psychometrician analyzing child attention data based on the ScreenQ and SNAP-IV instruments."},
                 {"role": "user", "content": analysis_prompt}
             ],
         model="llama3-8b-8192",  # or "mixtral-8x7b-32768"
